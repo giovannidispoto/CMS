@@ -10,17 +10,19 @@ Articles.prototype.create = function(user, title,description){
     });
 }
 
-Articles.prototype.read = function(id){
-  if(id == undefined){
-      this.db.query("SELECT * FROM articles WHERE id = ?", [id], function(err, rows){
-        if(err) throw err;
-        return rows;
-      });
+Articles.prototype.read = function(id, callback){
+  if(id == null){
+    this.db.query("SELECT * FROM articles", function(err, rows){
+      if(err) throw err;
+    //console.log(rows);
+      callback(rows);
+    });
+
   }else{
-      this.db.query("SELECT * FROM articles", function(err, rows){
-        if(err) throw err;
-        return rows;
-      });
+    this.db.query("SELECT * FROM articles WHERE id = ?", [id], function(err, rows){
+      if(err) throw err;
+        callback(rows);
+    });
   }
 
 }
@@ -37,3 +39,5 @@ Articles.prototype.delete = function(id){
     if(err) throw err;
   });
 }
+
+module.exports = Articles;

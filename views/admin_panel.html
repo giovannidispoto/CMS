@@ -6,8 +6,30 @@
   Lorem Ipsum dolor sit amet
   </p>
   <br  />
-  
-  <a href="http://localhost:3000/articles/new">Inserisci un nuovo articolo</a>
-  <a href="http://localhost:3000/articles/edit">Modifica un articolo</a>
-  <a href="http://localhost:3000/articles/delete">Cancella un articolo</a>
+
+  <ul>
+    <li>
+      <a onclick="showForm();">Inserisci un nuovo articolo</a>
+      <div id="formArt" style="display:none">
+
+        <form action="/articles" method="POST">
+          <label for="title"> Titolo:  </label>
+          <input type="text" name="title" maxlength="60"/>
+          <br />
+
+          <label for="description">Descrizione:</label><br />
+          <textarea name="description" rows="10" cols = "70"></textarea><br />
+
+          <input type="submit" value="inserisci" />
+        </form>
+        </div>
+    </li>
+    <li>
+      <a href="http://localhost:3000/articles/edit">Modifica un articolo</a>
+    </li>
+    <li>
+      <a href="http://localhost:3000/articles/delete">Cancella un articolo</a>
+    </li>
+  </ul>
+
 {%endblock%}

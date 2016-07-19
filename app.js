@@ -89,30 +89,56 @@ app.get('/signup', function(req,res){
 
 // Articoli
 
-app.get('/articles', function(req,res){
-    res.writeHead(200, {'Content-type': 'text/html'});
-    res.write(swig.renderFile("views/articles.html", { title : "pippo", articles: [{title:"pippo", description: "pippo"}, {title:"pippo", description: "pippo"}] }));
-    res.end();
-});
-
 app.post('/articles', function(req,res){
     var title = req.body.title;
     var description  = req.body.description;
 
-
-    var user = (new Cookie().get('user'));
+    var user = (new Cookies(req,res, {keys:"keys"}).get('user'));
 
     var articles = new Articles();
-    article.create(user, title, description);
-
+    articles.create(user, title, description);
+    res.redirect('/admin');
 });
 
-app.get('/articles/new', function(req,res){
+app.get('/articles', function(req,res){
     res.writeHead(200, {'Content-type': 'text/html'});
-    res.write(swig.renderFile('views/articles_new.html'));
-    res.end();
+    var articles = new Articles();
+    var cookies = new Cookies(req,res, {keys:"keys"});
+    var values;
+    articles.read(null, function(data){
+
+      var arr = [];
+      for(i = 0; i < data.length; i++){
+        var output = [];
+        output['title'] = data[i].title;
+        output['description'] = data[i].description;
+        output['username'] = data[i].fk_user;
+        output['id'] = data[i].id;
+        arr[i] = output;
+      }
+        console.log(arr);
+        var logged = cookies.get("user");
+      res.write(swig.renderFile('views/articles.html',{logged: (logged != undefined)?true:false, articles: arr }));
+    });
+
 });
 
+app.get('/articles/:art_id', function(req,res){
+    var articles = new Articles();
+    var id = req.params.art_id;
+    var article = articles.read(id);
+    res.writeHead(200, {'Content-type': 'text/html'});
+    res.write(swig.renderFile("views/article.html"), {title: article.title, description: article.description, user: article.user });
+
+});
+
+app.put('/articles/:art_id', function(req,res){
+
+});
+
+app.delete('/articles/:art_id', function(req,res){
+
+});
 // end articoli
 
 
@@ -122,7 +148,7 @@ app.get('/contact', function(req,res){
 });
 
 app.get('/admin', function(req,res){
-    var cookies = new Cookies();
+    var cookies = new Cookies(req, res, {"keys": "keys"});
 
     if(cookies.get("user")){
       res.writeHead(200, {'Content-type':'text/html'});

@@ -5,8 +5,13 @@
   <h1>Articoli Presenti</h1>
 
   {% for article in articles %}
+
     <header class="jumbotron hero-spacer">
+    <form id="submit" method="POST" action="/articles/{{ article.id }}/delete">
+    <input type="submit" value="cancella" />
+    </form>
               <h1>{{ article.title }}</h1>
+              <h3>articolo di {{article.username}}</h3>
               <p>{{ article.description }}</p>
           </header>
   {%endfor%}
