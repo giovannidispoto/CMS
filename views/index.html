@@ -1,0 +1,21 @@
+{% extends 'layout/template.html'%}
+
+{% block content%}
+        <!-- Jumbotron Header -->
+        <header class="jumbotron hero-spacer">
+            <h1>{{ title|title }}</h1>
+            <p>{{ description }}</p>
+            <p><a class="btn btn-primary btn-large" href="http://localhost:3000/login">Login</a>
+            </p>
+        </header>
+
+        <hr>
+
+        <!-- Title -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Latest Features</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+{% endblock %}

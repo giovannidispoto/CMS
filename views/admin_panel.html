@@ -1,0 +1,13 @@
+{% extends 'layout/template.html'%}
+
+{%block content%}
+  <h1> Benvenuto {{ user }} </h1>
+  <p>
+  Lorem Ipsum dolor sit amet
+  </p>
+  <br  />
+  
+  <a href="http://localhost:3000/articles/new">Inserisci un nuovo articolo</a>
+  <a href="http://localhost:3000/articles/edit">Modifica un articolo</a>
+  <a href="http://localhost:3000/articles/delete">Cancella un articolo</a>
+{%endblock%}

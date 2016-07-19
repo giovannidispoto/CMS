@@ -1,0 +1,20 @@
+{% extends 'layout/template.html'%}
+
+{% block content%}
+
+  <form action = "/login" method= "post">
+    <div>
+      <label for="username">
+      Username: <input type="text" name="username" />
+      </label>
+    </div>
+    <div>
+      <lable for="password">
+      Password: <input type="password" name="password" />
+      </lable>
+    </div>
+
+    <input type="submit" value="login" />
+  </form>
+
+{%endblock%}

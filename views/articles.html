@@ -1,0 +1,14 @@
+{% extends 'layout/template.html'%}
+
+{% block content%}
+
+  <h1>Articoli Presenti</h1>
+
+  {% for article in articles %}
+    <header class="jumbotron hero-spacer">
+              <h1>{{ article.title }}</h1>
+              <p>{{ article.description }}</p>
+          </header>
+  {%endfor%}
+
+{%endblock%}

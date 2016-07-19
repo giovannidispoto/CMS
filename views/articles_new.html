@@ -1,0 +1,17 @@
+{% extends "layout/template.html" %}
+
+{% block content %}
+
+  <h1>Inserisci un nuovo articolo</h1>
+
+  <form action="/articles" method="POST">
+    <label for="title"> Titolo:  <input type="text" name="title" />
+    </label>
+
+    <label for="description">Descrizione <input type="text" name="description" />
+    </label>
+
+    <input type="submit" value="inserisci" />
+  </form>
+
+{% endblock %}
