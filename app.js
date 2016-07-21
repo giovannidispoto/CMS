@@ -14,18 +14,24 @@ var express = require('express')
 
 var app = module.exports = express.createServer();
 
+function isAuth(req,res, next){
+  var cookies = new Cookies(req,res, {keys:"keys"});
+  if(cookies.get("user")) return next();
+  else next(new Error("Non sei autorizzato a vedere questa pagina!"));
+}
+
 
 
 
 // Configuration
 
 app.configure(function(){
+  app.use('/static', express.static(__dirname + '/public'));
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
+  app.set('view engine', 'swig');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
   app.use(cookieParser());
   app.use(expressSession({secret: "mementoauderesemprer"}));
 });
@@ -66,6 +72,7 @@ app.get('/login', function(req,res){
     res.writeHead(200, {'Content-type': 'text/html'});
     res.write(swig.renderFile('views/login.html'));
     res.end();
+
 });
 
 app.get('/home', function(req,res){
@@ -132,11 +139,22 @@ app.get('/articles/:art_id', function(req,res){
 
 });
 
-app.put('/articles/:art_id', function(req,res){
-
+app.post('/articles/:art_id/edit', function(req,res){
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end("Edit");
 });
 
-app.delete('/articles/:art_id', function(req,res){
+app.post('/articles/:art_id/delete', function(req,res){
+//  res.writeHead(200, {'Content-Type': 'text/html'});
+  var articles = new Articles();
+  articles.delete(req.params.art_id, function(exec){
+    if(exec){
+     res.writeHead(200, {'Content-Type': 'text/html'});
+    //  res.redirect('/articles');
+      res.write(swig.renderFile('views/success.html'));
+      res.end();
+    }
+  });
 
 });
 // end articoli
@@ -147,7 +165,7 @@ app.get('/contact', function(req,res){
     res.end("contact");
 });
 
-app.get('/admin', function(req,res){
+app.get('/admin', isAuth,function(req,res, next){
     var cookies = new Cookies(req, res, {"keys": "keys"});
 
     if(cookies.get("user")){

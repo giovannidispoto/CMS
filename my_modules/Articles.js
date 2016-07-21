@@ -34,9 +34,11 @@ Articles.prototype.update = function(id, title, description){
   });
 }
 
-Articles.prototype.delete = function(id){
+Articles.prototype.delete = function(id, callback){
   this.db.query("DELETE FROM articles WHERE id = ?",[id], function(err, rows){
     if(err) throw err;
+
+    callback(true);
   });
 }
 
